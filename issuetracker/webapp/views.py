@@ -5,7 +5,7 @@ from .forms import IssueForm
 
 class IssueListView(ListView):
     model = Issue
-    template_name = 'issue_list.html'
+    template_name = 'index.html'
 
 class IssueDetailView(DetailView):
     model = Issue
@@ -15,15 +15,15 @@ class IssueCreateView(CreateView):
     model = Issue
     form_class = IssueForm
     template_name = 'issue_create.html'
-    success_url = reverse_lazy('issue_list')
+    success_url = reverse_lazy('index')
 
 class IssueUpdateView(UpdateView):
     model = Issue
     form_class = IssueForm
     template_name = 'issue_edit.html'
-    success_url = reverse_lazy('issue_list')
+    success_url = reverse_lazy('index')
 
 class IssueDeleteView(DeleteView):
     model = Issue
     template_name = 'issue_delete.html'
-    success_url = reverse_lazy('issue_list')
+    success_url = reverse_lazy('index')
