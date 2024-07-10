@@ -1,7 +1,6 @@
 from django.db import models
 
 class Status(models.Model):
-    STATUS_CHOICES = [("new", "Новая"), ("moderated", "Модерированная"), ("deleted", "Удаленная")]
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
