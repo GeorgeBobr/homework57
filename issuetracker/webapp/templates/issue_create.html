@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Создание задачи</title>
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <div class="card" style="width: 24rem;">
+            <div class="card-body">
+                <h5 class="card-title text-center">Создание новой задачи</h5>
+                <form method="POST" action="{% url 'issue_create' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="summary" class="form-label">Заголовок</label>
+                        <input type="text" class="      form-control" id="summary" name="summary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Статус</label>
+                        <select class="form-control" id="status" name="status" required>
+                            {% for status in statuses %}
+                                <option value="{{ status.id }}">{{ status.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Тип задачи</label>
+                        <select class="form-control" id="type" name="type" required>
+                            {% for type in types %}
+                                <option value="{{ type.id }}">{{ type.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Создать задачу</button>
+                        <a href="{% url 'index' %}" class="btn btn-secondary">Назад</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

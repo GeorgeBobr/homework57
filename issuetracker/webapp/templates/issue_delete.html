@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Удаление задачи</title>
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <div class="card text-center" style="width: 24rem;">
+            <div class="card-body">
+                <h5 class="card-title">Подтверждение удаления</h5>
+                <p class="card-text">Вы действительно хотите удалить задачу "{{ issue.summary }}"?</p>
+                    <div class="d-grid gap-2">
+                    <form method="POST" action="{% url 'issue_delete' issue.pk %}">
+                        <a type="submit" class="btn btn-danger w-100">Удалить</a>
+                    </form>
+                    <a href="{% url 'issue_update' issue.pk %}" class="btn btn-info">Может редактировать задачу?</a>
+                    <a href="{% url 'index'%}" class="btn btn-secondary">На главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
