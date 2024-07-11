@@ -1,22 +1,18 @@
 from django import forms
-from django.forms import widgets
+from .models import Issue, Status, Type
 
-from webapp.models import Type
+class IssueForm(forms.ModelForm):
+    class Meta:
+        model = Issue
+        fields = ['summary', 'description', 'status', 'types']
+        widgets = {
+            'summary': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'types': forms.SelectMultiple(attrs={'class': 'form-control', 'size': 5}),
+        }
 
-
-class IssueForm(forms.Form):
-    title = forms.CharField(max_length=3, required=True, label="Название")
-    author = forms.CharField(
-        max_length=50,
-        required=False,
-        label="Автор",
-        initial="Неизвестный",
-        widget=widgets.Input(attrs={"placeholder": "Автор"}),
-    )
-    content = forms.CharField(
-        max_length=3000,
-        required=True,
-        label="Контент",
-        widget=widgets.Textarea(attrs={"cols": 20, "rows": 5, "placeholder": "Контент"}),
-    )
-    types = forms.ModelChoiceField(queryset=Type.objects.all(), required=True)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['status'].queryset = Status.objects.all()
+        self.fields['types'].queryset = Type.objects.all()

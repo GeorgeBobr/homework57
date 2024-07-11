@@ -1,29 +1,52 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Issue
-from .forms import IssueForm
+from django.views.generic import TemplateView, CreateView
 
-class IssueListView(ListView):
-    model = Issue
+from .forms import IssueForm
+from .models import Issue, Status, Type
+
+
+class IssueListView(TemplateView):
     template_name = 'index.html'
 
-class IssueDetailView(DetailView):
-    model = Issue
-    template_name = 'issue_detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['issues'] = Issue.objects.all()
+        return context
 
 class IssueCreateView(CreateView):
-    model = Issue
-    form_class = IssueForm
     template_name = 'issue_create.html'
-    success_url = reverse_lazy('index')
-
-class IssueUpdateView(UpdateView):
-    model = Issue
     form_class = IssueForm
-    template_name = 'issue_edit.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('issue_list')
 
-class IssueDeleteView(DeleteView):
-    model = Issue
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['statuses'] = Status.objects.all()
+        context['types'] = Type.objects.all()
+        return context
+class IssueDetailView(TemplateView):
+    template_name = 'issue_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context['issue'] = Issue.objects.get(pk=pk)
+        return context
+
+class IssueUpdateView(TemplateView):
+    template_name = 'issue_edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context['issue'] = Issue.objects.get(pk=pk)
+        return context
+
+class IssueDeleteView(TemplateView):
     template_name = 'issue_delete.html'
-    success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context['issue'] = Issue.objects.get(pk=pk)
+        return context

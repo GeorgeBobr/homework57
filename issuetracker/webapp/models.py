@@ -7,7 +7,6 @@ class Status(models.Model):
         return self.name
 
     class Meta:
-        db_table = "statuses"
         verbose_name = "Статус"
         verbose_name_plural = "Статусы"
 
@@ -18,7 +17,6 @@ class Type(models.Model):
         return self.title
 
     class Meta:
-        db_table = "types"
         verbose_name = "Тип"
         verbose_name_plural = "Типы"
 
@@ -34,6 +32,5 @@ class Issue(models.Model):
         return self.summary
 
     class Meta:
-        db_table = "issues"
         verbose_name = "Задача"
         verbose_name_plural = "Задачи"
