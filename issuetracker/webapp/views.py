@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
 from .forms import IssueForm
 from .models import Issue, Status, Type
@@ -44,11 +44,7 @@ class IssueUpdateView(UpdateView):
     form_class = IssueForm
     success_url = reverse_lazy('index')
 
-class IssueDeleteView(TemplateView):
+class IssueDeleteView(DeleteView):
+    model = Issue
     template_name = 'issue_delete.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        context['issue'] = Issue.objects.get(pk=pk)
-        return context
+    success_url = reverse_lazy('index')
