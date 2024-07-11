@@ -14,16 +14,21 @@ class IssueListView(TemplateView):
         context['issues'] = Issue.objects.all()
         return context
 
+
 class IssueCreateView(CreateView):
     template_name = 'issue_create.html'
     form_class = IssueForm
-    success_url = reverse_lazy('issue_list')
+    success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['statuses'] = Status.objects.all()
         context['types'] = Type.objects.all()
         return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 class IssueDetailView(TemplateView):
     template_name = 'issue_detail.html'
 
